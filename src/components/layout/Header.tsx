@@ -4,11 +4,12 @@ import { useTheme } from 'next-themes';
 import { Bell, Moon, Sun, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+  const supabase = createClientComponentClient();
 
   const handleThemeToggle = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');

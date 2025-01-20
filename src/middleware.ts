@@ -11,6 +11,14 @@ export async function middleware(req: NextRequest) {
       data: { session },
     } = await supabase.auth.getSession();
 
+    // If accessing root path
+    if (req.nextUrl.pathname === '/') {
+      if (session) {
+        return NextResponse.redirect(new URL('/dashboard', req.url));
+      }
+      return NextResponse.redirect(new URL('/auth/login', req.url));
+    }
+
     // If accessing auth pages while logged in
     if (session && req.nextUrl.pathname.startsWith('/auth')) {
       return NextResponse.redirect(new URL('/dashboard', req.url));
