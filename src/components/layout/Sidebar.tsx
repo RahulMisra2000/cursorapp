@@ -9,7 +9,9 @@ import {
   Calendar,
   BarChart,
   UserCircle,
-  Settings
+  Settings,
+  FileText,
+  Bell
 } from 'lucide-react';
 
 type NavItem = {
@@ -62,6 +64,29 @@ const USER_NAV: NavItem[] = [
 const Sidebar = () => {
   const pathname = usePathname();
 
+  const menuItems = [
+    {
+      title: 'Dashboard',
+      href: '/dashboard',
+      icon: Calendar,
+    },
+    {
+      title: 'Employees',
+      href: '/employees',
+      icon: Users,
+    },
+    {
+      title: 'Request & Reminders',
+      href: '/requests',
+      icon: Bell,
+    },
+    {
+      title: 'Reports',
+      href: '/reports',
+      icon: FileText,
+    },
+  ];
+
   return (
     <div className="flex flex-col w-64 bg-white dark:bg-gray-900 h-screen border-r dark:border-gray-800">
       <div className="p-6">
@@ -112,6 +137,31 @@ const Sidebar = () => {
               {item.label}
             </Link>
           ))}
+        </div>
+
+        <div className="mt-8 space-y-1">
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-2 py-2">
+            REQUESTS
+          </p>
+          {menuItems.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400'
+                    : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800'
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                {item.title}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
