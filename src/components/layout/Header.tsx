@@ -5,11 +5,31 @@ import { Bell, Moon, Sun, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const supabase = createClientComponentClient();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+    };
+
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   const handleThemeToggle = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -60,10 +80,16 @@ const Header = () => {
             href="/profile"
             className="flex items-center gap-2 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            <div className="h-8 w-8 rounded-full bg-gray-200" />
+            <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600">
+              {user?.email?.[0].toUpperCase()}
+            </div>
             <div>
-              <p className="text-sm font-medium dark:text-white">John Doe</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Admin</p>
+              <p className="text-sm font-medium dark:text-white">
+                {user?.email || 'Loading...'}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {user?.role || 'User'}
+              </p>
             </div>
           </Link>
         </div>
