@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { RequestError } from '@/types/supabase';
 import { Search, Loader2, ArrowUpDown, Check } from 'lucide-react';
+import { toast } from 'sonner';
 
 const PAGE_SIZE = 10;
 
@@ -68,9 +69,11 @@ const RequestErrorsGrid = () => {
 
       if (updateError) throw updateError;
 
+      toast.success('Record marked as done');
       // Refresh the data
       fetchData();
     } catch (err) {
+      toast.error('Failed to update record');
       setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };

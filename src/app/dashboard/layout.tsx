@@ -1,7 +1,6 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 
 export default async function DashboardLayout({
@@ -22,11 +21,8 @@ export default async function DashboardLayout({
     return (
       <div className="flex h-screen">
         <Sidebar />
-        <div className="flex flex-1 flex-col">
-          <Header />
-          <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900">
-            {children}
-          </main>
+        <div className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900">
+          {children}
         </div>
       </div>
     );
