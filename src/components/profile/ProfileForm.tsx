@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { User } from '@supabase/supabase-js';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Camera, Loader2 } from 'lucide-react';
 

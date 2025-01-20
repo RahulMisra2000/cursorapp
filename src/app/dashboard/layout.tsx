@@ -18,7 +18,7 @@ export default async function DashboardLayout({
     }
 
     return children;
-  } catch (error) {
+  } catch {
     redirect('/auth/login');
   }
 } 

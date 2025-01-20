@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { RequestError } from '@/types/supabase';
 import { Search, Loader2, ArrowUpDown, Check } from 'lucide-react';
@@ -20,7 +20,7 @@ const RequestErrorsGrid = () => {
 
   const supabase = createClientComponentClient();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -54,11 +54,11 @@ const RequestErrorsGrid = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, searchTerm, sortColumn, sortDirection, supabase]);
 
   useEffect(() => {
     fetchData();
-  }, [page, searchTerm, sortColumn, sortDirection]);
+  }, [page, searchTerm, sortColumn, sortDirection, fetchData]);
 
   const handleUpdateActive = async (id: number) => {
     try {

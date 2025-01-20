@@ -30,7 +30,7 @@ export async function middleware(req: NextRequest) {
     }
 
     return res;
-  } catch (error) {
+  } catch {
     // If there's an error, redirect to login
     return NextResponse.redirect(new URL('/auth/login', req.url));
   }
