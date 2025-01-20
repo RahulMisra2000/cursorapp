@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import { Toaster } from 'sonner';
 import Header from '@/components/layout/Header';
+import Sidebar from '@/components/layout/Sidebar';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,9 +31,12 @@ export default function RootLayout({
           <AuthProvider>
             <div className="min-h-screen">
               <Header />
-              <main className="pt-24">
-                {children}
-              </main>
+              <div className="flex h-[calc(100vh-4rem)]">
+                <Sidebar />
+                <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 pt-24">
+                  {children}
+                </main>
+              </div>
             </div>
             <Toaster />
           </AuthProvider>

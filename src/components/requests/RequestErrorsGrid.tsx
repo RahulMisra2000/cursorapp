@@ -87,8 +87,12 @@ const RequestErrorsGrid = () => {
     }
   };
 
-  const columns: { key: keyof RequestError; label: string }[] = [
-    { key: 'id', label: 'ID' },
+  const columns: { key: keyof RequestError; label: string; className?: string }[] = [
+    { 
+      key: 'id', 
+      label: 'ID',
+      className: 'hidden md:table-cell' // Hide on mobile, show on medium screens and up
+    },
     { key: 'region', label: 'Region' },
     { key: 'type', label: 'Type' },
     { key: 'casenumber', label: 'Case Number' },
@@ -127,7 +131,7 @@ const RequestErrorsGrid = () => {
                 <th
                   key={column.key}
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className={`px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${column.className || ''}`}
                   onClick={() => handleSort(column.key)}
                 >
                   <div className="flex items-center gap-2">
@@ -161,7 +165,10 @@ const RequestErrorsGrid = () => {
               data.map((row) => (
                 <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                   {columns.map((column) => (
-                    <td key={column.key} className="px-4 py-4 text-sm text-gray-900 dark:text-gray-300 whitespace-nowrap">
+                    <td 
+                      key={column.key} 
+                      className={`px-4 py-4 text-sm text-gray-900 dark:text-gray-300 whitespace-nowrap ${column.className || ''}`}
+                    >
                       {column.key === 'created_at' 
                         ? new Date(row[column.key]).toLocaleString()
                         : row[column.key]}
